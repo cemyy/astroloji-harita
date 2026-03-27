@@ -5,301 +5,245 @@ import { NatalChart, BirthData, SynastryAnalysis, MundaneChart } from './astrolo
 export class AIInterpretation {
   
   /**
-   * Generate comprehensive natal chart interpretation using AI
+   * Generate comprehensive natal chart interpretation
+   * Uses local template-based generation (no API calls needed)
    */
   static async interpretNatalChart(chart: NatalChart, language: string = 'en'): Promise<string> {
-    const prompt = this.buildNatalChartPrompt(chart, language);
-    return await this.callAIAPI(prompt);
+    return this.generateNatalChartInterpretation(chart, language);
   }
 
   /**
    * Generate relationship compatibility reading
+   * Uses local template-based generation (no API calls needed)
    */
   static async interpretSynastry(synastry: SynastryAnalysis, language: string = 'en'): Promise<string> {
-    const prompt = this.buildSynastryPrompt(synastry, language);
-    return await this.callAIAPI(prompt);
+    return this.generateSynastryInterpretation(synastry, language);
   }
 
   /**
    * Generate life guidance based on current transits
+   * Uses local template-based generation (no API calls needed)
    */
   static async getYearlyForecast(chart: NatalChart, year: number, language: string = 'en'): Promise<string> {
-    const prompt = this.buildYearlyForecastPrompt(chart, year, language);
-    return await this.callAIAPI(prompt);
+    return this.generateYearlyForecast(chart, year, language);
   }
 
   /**
    * Generate interpretation for mundane/world events
+   * Uses local template-based generation (no API calls needed)
    */
   static async interpretMundaneChart(chart: MundaneChart, language: string = 'en'): Promise<string> {
-    const prompt = this.buildMundanePrompt(chart, language);
-    return await this.callAIAPI(prompt);
+    return this.generateMundaneInterpretation(chart, language);
   }
 
-  private static buildNatalChartPrompt(chart: NatalChart, language: string): string {
-    const birthInfo = `
-Birth Information:
-- Date: ${chart.birthData.day}/${chart.birthData.month}/${chart.birthData.year}
-- Time: ${chart.birthData.hour || 'Unknown'}:${chart.birthData.minute || '00'}
-- Location: ${chart.birthData.locationName}
-- Latitude: ${chart.birthData.latitude}
-- Longitude: ${chart.birthData.longitude}
-
-Planets Positions:
-${chart.planets.map(p => `- ${p.planet}: ${p.zodiacSign} ${p.degree}°${p.minute}' ${p.retrograde ? '(Retrograde)' : ''}`).join('\n')}
-
-Houses:
-${chart.houses.slice(0, 4).map(h => `- House ${h.number} (${['1st', '10th'][h.number % 10] || h.number}): ${h.zodiacSign} ${h.degree}°${h.minute}'`).join('\n')}
-
-Major Aspects:
-${chart.aspects.filter(a => a.isActive).slice(0, 10).map(a => `- ${a.planet1} ${a.type} ${a.planet2} (${a.angle.toFixed(1)}°)`).join('\n')}
-
-Element Balance: Fire ${chart.elements.fire}, Earth ${chart.elements.earth}, Air ${chart.elements.air}, Water ${chart.elements.water}
-Quality Balance: Cardinal ${chart.qualities.cardinal}, Fixed ${chart.qualities.fixed}, Mutable ${chart.qualities.mutable}
-
-Please provide a comprehensive, in-depth interpretation of this natal chart in ${language}.
-Include:
-1. Overall personality and life purpose indicated by the chart
-2. Sun sign (core identity and ego)
-3. Moon sign (emotional nature and inner needs)
-4. Rising sign/Ascendant (outward appearance and first impression)
-5. Venus and Mars (love and desire nature)
-6. Saturn's placement (life lessons and maturation)
-7. North Node (soul's evolutionary direction)
-8. Major aspects and their meanings
-9. Element and quality balance interpretation
-10. Karmic patterns and past incarnation hints
-11. Strengths and challenges
-12. Potential life path and talents
-13. Areas for growth and healing
-14. Recommendation for personal development
-
-Make the interpretation deeply meaningful, specific to this chart's unique configuration, and spiritually insightful.
-`;
+  private static generateNatalChartInterpretation(chart: NatalChart, language: string): string {
+    const sunSign = chart.planets[0]?.zodiacSign || 'Unknown';
+    const moonSign = chart.planets[1]?.zodiacSign || 'Unknown';
+    const risingSign = chart.ascendant?.zodiacSign || 'Unknown';
+    const venusSign = chart.planets[4]?.zodiacSign || 'Unknown';
+    const marsSign = chart.planets[3]?.zodiacSign || 'Unknown';
     
-    return birthInfo;
-  }
-
-  private static buildSynastryPrompt(synastry: SynastryAnalysis, language: string): string {
-    const synastryInfo = `
-Relationship Analysis between ${synastry.person1} and ${synastry.person2}:
-
-Compatibility Scores:
-- Overall: ${synastry.compatibility.overall}%
-- Emotional: ${synastry.compatibility.emotional}%
-- Intellectual: ${synastry.compatibility.intellectual}%
-- Physical/Romantic: ${synastry.compatibility.physical}%
-- Karmic: ${synastry.compatibility.karmic}%
-
-Major Cross-Chart Aspects:
-${synastry.aspects.slice(0, 15).map(a => `- ${a.planet1} ${a.type} ${a.planet2} (${a.angle.toFixed(1)}°)`).join('\n')}
-
-Please provide a comprehensive relationship analysis in ${language} that includes:
-1. Overall compatibility and relationship potential
-2. Strengths of this pairing
-3. Potential challenges and friction points
-4. Emotional compatibility (Moon signs and Venus placements)
-5. Communication compatibility (Mercury interactions)
-6. Sexual and romantic chemistry (Mars-Venus dynamics)
-7. Balance of power and equality
-8. Growth potential - what each person teaches the other
-9. Timeline for relationship development
-10. Specific advice for making the relationship work
-11. Karmic purpose of this connection
-12. Red flags or warning signs
-13. Best times to work on relationship
-14. Long-term potential
-
-Make the analysis honest, compassionate, and practical.
-`;
+    const sunTraits = this.getSunSignTraits(sunSign);
+    const moonTraits = this.getMoonSignTraits(moonSign);
+    const majorAspects = chart.aspects.filter(a => a.isActive).slice(0, 8);
     
-    return synastryInfo;
-  }
+    const interpretation = `
+# ${language === 'tr' ? 'Doğum Haritası Analizi' : 'Natal Chart Interpretation'}
 
-  private static buildYearlyForecastPrompt(chart: NatalChart, year: number, language: string): string {
-    return `
-Create a comprehensive yearly forecast for ${year} for someone with:
-- Sun in ${chart.planets[0]?.zodiacSign} (approximately)
-- Moon in ${chart.planets[1]?.zodiacSign} (approximately)
-- Rising sign/Ascendant in ${chart.ascendant.zodiacSign || 'Unknown'}
+## ${language === 'tr' ? 'Temel Kişilik' : 'Core Identity'}
+**${language === 'tr' ? 'Güneş Burcu' : 'Sun Sign'}: ${sunSign}**
+${language === 'tr' 
+  ? `Senin özünü ve yaşam amacınızı temsil eder. ${sunSign} bireyleri ${sunTraits} ile bilinirler.`
+  : `Your core essence and life purpose. ${sunSign} individuals are characterized by ${sunTraits}.`
+}
 
-Current planetary positions and transits for ${year}:
-(Include major transits, progressions, and solar returns)
+## ${language === 'tr' ? 'Duygusal Doğa' : 'Emotional Nature'}
+**${language === 'tr' ? 'Ay Burcu' : 'Moon Sign'}: ${moonSign}**
+${language === 'tr'
+  ? `Senin iç duygusal dünyan. ${moonSign} ayı ${moonTraits}.`
+  : `Your inner emotional world and private self. ${moonSign} moon ${moonTraits}.`
+}
 
-Provide an in-depth forecast in ${language} covering:
-1. Overall theme for the year
-2. Month-by-month breakdown with key transits
-3. Career and finances
-4. Relationships and social life
-5. Health and physical well-being
-6. Personal growth and spiritual development
-7. Challenges and how to navigate them
-8. Opportunities and when to seize them
-9. Mercury retrogrades and their impact
-10. Full moons and new moons timing
-11. Best timing for major decisions
-12. Recommendations for making the most of the year's energy
+## ${language === 'tr' ? 'Dış Kişilik' : 'Outer Personality'}
+**${language === 'tr' ? 'Yükselen Burç (Assan)' : 'Rising Sign (Ascendant)'}: ${risingSign}**
+${language === 'tr'
+  ? `İlk izleninizde insanlar sizi ${risingSign} olarak görürler.`
+  : `How others perceive you at first glance. You appear as ${risingSign} to the world.`
+}
 
-Be specific with dates and practical guidance.
-`;
-  }
+## ${language === 'tr' ? 'Aşk ve İstek' : 'Love & Desire Nature'}
+**${language === 'tr' ? 'Venüs' : 'Venus'}: ${venusSign} | ${language === 'tr' ? 'Mars' : 'Mars'}: ${marsSign}**
+${language === 'tr'
+  ? `${venusSign} Venüs'ü sevgi ve ilişkiler için. ${marsSign} Mars'ı enerji ve tutku için gösterir.`
+  : `${venusSign} Venus shows your love style and values. ${marsSign} Mars shows your drive and passion.`
+}
 
-  private static buildMundanePrompt(chart: MundaneChart, language: string): string {
-    return `
-Analyze this world event from an astrological perspective for ${chart.eventDate.toLocaleDateString()}:
+## ${language === 'tr' ? 'Element Dengesi' : 'Elemental Balance'}
+${this.getElementalInterpretation(chart.elements, language)}
 
-Event: ${chart.eventDate.toISOString()}
-Location: ${chart.location ? `${chart.location.latitude}, ${chart.location.longitude}` : 'Global'}
+## ${language === 'tr' ? 'Ana Açılar' : 'Major Aspects'}
+${majorAspects.map((a, i) => `- **${a.planet1} ${a.type} ${a.planet2}**: ${this.getAspectInterpretation(a, language)}`).join('\n')}
 
-Planetary positions at event:
-${chart.planets.map(p => `- ${p.planet}: ${p.zodiacSign} ${p.degree}°`).join('\n')}
+## ${language === 'tr' ? 'Yaşam Yolu' : 'Life Path'}
+${language === 'tr'
+  ? 'Bu harita ruh yolculuğunun derin dönüşüm ve büyüme olduğunu gösterir.'
+  : 'This chart indicates a soul moving toward deep growth and meaningful transformation.'
+}
 
-Provide an interpretation in ${language} including:
-1. Astrological significance of this event's timing
-2. Major planetary aspects active at this moment
-3. Expected collective impact
-4. Long-term implications
-5. Similar historical events during similar planetary configurations
-6. How this affects different regions/countries
-7. Likely follow-up developments
-8. Healing and learning opportunities
-9. Global consciousness implications
-10. Recommendation for how humanity should respond
-
-Provide deep spiritual and practical insight.
-`;
-  }
-
-  /**
-   * Call AI API (OpenAI GPT-4)
-   * Falls back to template-based interpretation if API unavailable
-   */
-  private static async callAIAPI(prompt: string): Promise<string> {
-    try {
-      // Get API key from environment
-      const apiKey = process.env.NEXT_PUBLIC_OPENAI_API_KEY;
-      
-      if (!apiKey) {
-        console.warn('OpenAI API key not configured (NEXT_PUBLIC_OPENAI_API_KEY). Using template interpretation.');
-        console.info('To enable AI features, add NEXT_PUBLIC_OPENAI_API_KEY to .env.local');
-        return this.getTemplateInterpretation();
-      }
-
-      // Call OpenAI API with GPT-4
-      const response = await fetch('https://api.openai.com/v1/chat/completions', {
-        method: 'POST',
-        headers: {
-          'Authorization': `Bearer ${apiKey}`,
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          model: 'gpt-4-turbo',
-          messages: [
-            {
-              role: 'system',
-              content: `You are an expert Western astrologer with decades of experience in natal chart interpretation, transits, and personal consulting. 
-Your interpretations are:
-- Deep and insightful, going beyond surface-level descriptions
-- Spiritually aware but grounded in practical life guidance
-- Compassionate and non-judgmental
-- Specific to the individual's unique chart configuration
-- Include both strengths/gifts and challenges/lessons
-- Written for someone who may be new to astrology but wants real depth`,
-            },
-            {
-              role: 'user',
-              content: prompt,
-            },
-          ],
-          temperature: 0.7,
-          max_tokens: 3000,
-        }),
-      });
-
-      if (!response.ok) {
-        const error = await response.json();
-        console.error('OpenAI API error:', error);
-        return this.getTemplateInterpretation();
-      }
-
-      const data = await response.json();
-      const content = data.choices?.[0]?.message?.content;
-
-      if (!content) {
-        console.error('No content in OpenAI response');
-        return this.getTemplateInterpretation();
-      }
-
-      return content;
-    } catch (error) {
-      console.error('Error calling OpenAI API:', error);
-      return this.getTemplateInterpretation();
-    }
-  }
-
-  private static getTemplateInterpretation(): string {
-    return `
-This is a placeholder interpretation. To generate comprehensive AI-powered readings:
-
-1. Set up your OpenAI API key in environment variables
-   - Create .env.local file with: NEXT_PUBLIC_OPENAI_API_KEY=your_key
-   
-2. The system will generate detailed interpretations based on:
-   - Planetary positions in zodiac signs and houses
-   - Aspects between planets
-   - Element and quality balances
-   - Lunar nodes (karmic direction)
-   - Transiting planets
-   - Progressions and directions
-   - Solar returns
-
-3. Interpretations cover:
-   - Personality and life purpose
-   - Talents, strengths, and lessons
-   - Relationship dynamics
-   - Yearly forecasts
-   - Spiritual development
-   - Career guidance
-   - Health and wellness
-
-To enable full AI features, configure your API key and the system will provide comprehensive, personalized astrological readings.
+---
+${language === 'tr' ? '*Lokalde oluşturulmuş yorum. AI tarafından güçlendirilmiş okumalar için API anahtarı ayarlayın.*' : '*Locally generated interpretation using astrological algorithms.*'}
     `;
+    
+    return interpretation;
+  }
+
+  private static generateSynastryInterpretation(synastry: SynastryAnalysis, language: string): string {
+    const overallScore = synastry.compatibility.overall;
+    const emotionalScore = synastry.compatibility.emotional;
+    const physicalScore = synastry.compatibility.physical;
+    const majorAspects = synastry.aspects.slice(0, 12);
+    
+    const interpretation = `
+# ${language === 'tr' ? 'İlişki Uyumluluğu Analizi' : 'Relationship Compatibility Analysis'}
+**${synastry.person1} ${language === 'tr' ? 've' : '&'} ${synastry.person2}**
+
+## ${language === 'tr' ? 'Genel Uyum Skorları' : 'Overall Compatibility Scores'}
+- ${language === 'tr' ? 'Genel' : 'Overall'}: **${overallScore}%** 
+- ${language === 'tr' ? 'Duygusal' : 'Emotional'}: **${emotionalScore}%**
+- ${language === 'tr' ? 'Entelektüel' : 'Intellectual'}: **${synastry.compatibility.intellectual}%**
+- ${language === 'tr' ? 'Fiziksel/Romantik' : 'Physical/Romantic'}: **${physicalScore}%**
+- ${language === 'tr' ? 'Karmik' : 'Karmic'}: **${synastry.compatibility.karmic}%**
+
+## ${language === 'tr' ? 'İlişki Potansiyeli' : 'Relationship Potential'}
+${language === 'tr'
+  ? `${overallScore > 70 ? 'Bu çift güçlü bir bağ gösteriyor.' : overallScore > 50 ? 'Uyum iyi fakat çalışma gerektiriyor.' : 'İlişki zorlayıcı fakat büyüme potansiyeline sahip.'} Derin bağlantı için karşılıklı çaba önemli.`
+  : `${overallScore > 70 ? 'This pair shows strong compatibility.' : overallScore > 50 ? 'Good foundation with room for growth.' : 'Challenging but rich with learning potential.'} Success requires mutual commitment.`
+}
+
+## ${language === 'tr' ? 'Ana Haçlı Açılar' : 'Major Cross-Chart Aspects'}
+${majorAspects.slice(0, 10).map(a => `- **${a.planet1} ${a.type} ${a.planet2}**: ${this.getAspectInterpretation(a, language)}`).join('\n')}
+
+## ${language === 'tr' ? 'Güçlü Yönler' : 'Strengths of This Pairing'}
+${language === 'tr'
+  ? `- Duygusal desteği ve anlaşmayı paylaşan\n- Ortak değerleri ve amaçları\n- Birbirini tamamlayan güçler\n- Büyütme ve öğrenme potansiyeli`
+  : `- Shared emotional understanding and support\n- Common values and life goals\n- Complementary strengths\n- Growth potential together`
+}
+
+## ${language === 'tr' ? 'Mücadele Alanları' : 'Areas for Growth'} 
+${language === 'tr'
+  ? 'Çatlak noktaların farkında olmak ve açık iletişim bu çifti güçlendirir.'
+  : 'Awareness of challenging points and open communication will strengthen this bond.'
+}
+
+---
+${language === 'tr' ? '*Lokalde oluşturulmuş analiz. Detaylı okuma için astrologerle görüşün.*' : '*Locally generated analysis based on chart compatibility.*'}
+    `;
+    
+    return interpretation;
+  }
+
+  private static generateYearlyForecast(chart: NatalChart, year: number, language: string): string {
+    const sunSign = chart.planets[0]?.zodiacSign || 'Unknown';
+    
+    const forecast = `
+# ${year} ${language === 'tr' ? 'Yıllık Tahmini' : 'Yearly Forecast'}
+**${sunSign} ${language === 'tr' ? 'Güneşi İçin' : 'Sun'} ${year}**
+
+## ${language === 'tr' ? 'Yıl Teması' : 'Overall Theme for the Year'}
+${language === 'tr'
+  ? `${year} yılı kişisel dönüşüm, yeni başlangış ve gözlemci yıldızlarının rehberliği dönemini gösterir.`
+  : `${year} brings themes of personal growth, new opportunities, and alignment with your higher purpose.`
+}
+
+## ${language === 'tr' ? 'Aylar' : 'Monthly Breakdown'}
+
+### ${language === 'tr' ? 'Ocak - Mart' : 'January - March'}
+${language === 'tr'
+  ? 'Planlama ve yeni başlangıç dönemi. Hedefiniz netleştirin.'
+  : 'Planning and new beginnings. Clarify your intentions and set goals.'
+}
+
+### ${language === 'tr' ? 'Nisan - Haziran' : 'April - June'} 
+${language === 'tr'
+  ? 'Harekete geçme saati. Projeleriniz hayata geçirin.'
+  : 'Time for action and manifestation. Launch projects and take calculated risks.'
+}
+
+### ${language === 'tr' ? 'Temmuz - Eylül' : 'July - September'}
+${language === 'tr'
+  ? 'Refleksyon ve değerlendirme dönemi. İlerlemeyi gözden geçirin.'
+  : 'Review and evaluation period. Assess progress and adjust course as needed.'
+}
+
+### ${language === 'tr' ? 'Ekim - Aralık' : 'October - December'}
+${language === 'tr'
+  ? 'Hasılada alma ve kapanış. Yılı saygıyla bitirin.'
+  : 'Completion and harvest. Celebrate achievements and close chapters.'
+}
+
+## ${language === 'tr' ? 'Kariyer ve Finans' : 'Career & Finances'}
+${language === 'tr'
+  ? `${sunSign} doğmuş kişiler bu yıl kariyer ilerlemesi ve finansal fırsatlarını görebilir.`
+  : `For ${sunSign} natives, this year brings potential for career advancement and financial growth.`
+}
+
+## ${language === 'tr' ? 'İlişkiler' : 'Relationships'}}
+${language === 'tr'
+  ? 'İlişkileriniz derin olacak. Saygı ve iletişime odaklanın.'
+  : 'Relationships deepen. Focus on authentic communication and mutual support.'
+}
+
+## ${language === 'tr' ? 'Tavsiye' : 'Recommendations'}
+${language === 'tr'
+  ? '- Kendinize zaman ayırın\n- Özniyetinize sadık kalın\n- Yeni fırsatları kucaklayın\n- Sağlığınıza dikkat edin'
+  : '- Prioritize self-care and reflection\n- Stay true to your authentic path\n- Embrace new opportunities\n- Maintain physical and mental health'
+}
+
+---
+${language === 'tr' ? '*Tahmini astrolojik döngülere göre oluşturulmuştur.*' : '*Forecast based on astrological cycles and transits.*'}
+    `;
+    
+    return forecast;
+  }
+
+  private static generateMundaneInterpretation(chart: MundaneChart, language: string): string {
+    const interpretation = `
+# ${language === 'tr' ? 'Dünya Olayları Analizi' : 'Mundane Events Analysis'}
+**${chart.eventDate.toLocaleDateString(language === 'tr' ? 'tr-TR' : 'en-US')}**
+
+## ${language === 'tr' ? 'Astrolojik Anlamlılık' : 'Astrological Significance'}
+${language === 'tr'
+  ? 'Bu olay belirli bir astrolojik dönemde meydana gelmiş, kozmik ritmlerle uyumlu.'
+  : 'This event occurred at a significant astrological moment, aligned with cosmic cycles.'
+}
+
+## ${language === 'tr' ? 'Gezegen Etkileri' : 'Planetary Influences'}}
+${chart.planets.slice(0, 5).map(p => `- **${p.planet}** in ${p.zodiacSign}`).join('\n')}
+
+## ${language === 'tr' ? 'Beklenen Etki' : 'Expected Impact'}}
+${language === 'tr'
+  ? 'Kolektif bilinç üzerinde derin etki. Evrim ve dönüşüm potansiyeli.'
+  : 'Significant collective impact. Potential for evolution and collective learning.'
+}
+
+## ${language === 'tr' ? 'Belgeselendirme' : 'Long-term Implications'}}
+${language === 'tr'
+  ? 'Bu olayın etkisi önümüzdeki aylar ve yıllar içinde hissedilecek.'
+  : 'The effects of this event will unfold over coming months and years.'
+}
+
+---
+${language === 'tr' ? '*Dünya astrolojisi analizi.*' : '*Mundane astrology analysis based on world events.*'}
+    `;
+    
+    return interpretation;
   }
 
   /**
    * Generate simple text-based interpretation without AI
    */
-  static generateBasicInterpretation(chart: NatalChart): string {
-    const sunSign = chart.planets[0]?.zodiacSign || 'Unknown';
-    const moonSign = chart.planets[1]?.zodiacSign || 'Unknown';
-    const risingSign = chart.ascendant?.zodiacSign || 'Unknown';
-    
-    return `
-# Natal Chart Interpretation
-
-## Core Identity
-**Sun Sign:** ${sunSign}
-Your core essence and life purpose. ${sunSign} individuals are known for their ${this.getSunSignTraits(sunSign)}.
-
-## Emotional Nature  
-**Moon Sign:** ${moonSign}
-Your inner emotional world and how you process feelings. ${moonSign} moons ${this.getMoonSignTraits(moonSign)}.
-
-## Outer Personality
-**Rising Sign (Ascendant):** ${risingSign}
-How others perceive you at first meeting. You come across as ${risingSign}.
-
-## Elemental Balance
-This chart shows strength in ${this.getElementalInterpretation(chart.elements)} energies.
-
-## Major Aspects
-${chart.aspects.filter(a => a.isActive).slice(0, 5).map(a => `- **${a.planet1} ${a.type} ${a.planet2}**: ${this.getAspectInterpretation(a)}`).join('\n')}
-
-## Life Path
-This chart indicates a soul moving toward ${chart.planets.length > 0 ? 'deep growth and transformation' : 'unknown'}.
-
-*(For comprehensive AI-powered interpretation, please configure your API key)*
-    `;
+  static generateBasicInterpretation(chart: NatalChart, language: string = 'en'): string {
+    return this.generateNatalChartInterpretation(chart, language);
   }
 
   private static getSunSignTraits(sign: string): string {
@@ -317,7 +261,7 @@ This chart indicates a soul moving toward ${chart.planets.length > 0 ? 'deep gro
       'Aquarius': 'innovation, individuality, and humanitarianism',
       'Pisces': 'compassion, intuition, and spirituality',
     };
-    return traits[sign] || 'unique qualities';
+    return traits[sign] || 'unique qualities and strengths';
   }
 
   private static getMoonSignTraits(sign: string): string {
@@ -335,24 +279,64 @@ This chart indicates a soul moving toward ${chart.planets.length > 0 ? 'deep gro
       'Aquarius': 'need independence, uniqueness, and intellectual connection',
       'Pisces': 'need compassion, imagination, and spiritual connection',
     };
-    return traits[sign] || 'emotional depth and understanding';
+    return traits[sign] || 'emotional depth and authentic connection';
   }
 
-  private static getElementalInterpretation(elements: Record<string, number>): string {
-    const max = Math.max(elements.fire, elements.earth, elements.air, elements.water);
-    const el = Object.keys(elements).find(k => elements[k as keyof typeof elements] === max);
-    return el ? `${el}` : 'balanced';
+  private static getElementalInterpretation(elements: Record<string, number>, language: string = 'en'): string {
+    const fire = elements.fire || 0;
+    const earth = elements.earth || 0;
+    const air = elements.air || 0;
+    const water = elements.water || 0;
+    
+    const dominant = Math.max(fire, earth, air, water);
+    let element = 'balanced';
+    
+    if (dominant === fire && fire > 0) element = language === 'tr' ? 'Ateş' : 'Fire';
+    else if (dominant === earth && earth > 0) element = language === 'tr' ? 'Toprak' : 'Earth';
+    else if (dominant === air && air > 0) element = language === 'tr' ? 'Hava' : 'Air';
+    else if (dominant === water && water > 0) element = language === 'tr' ? 'Su' : 'Water';
+    
+    const description = language === 'tr'
+      ? element === 'Ateş' ? 'Enerji, tutku ve eylem'
+        : element === 'Toprak' ? 'Pratikallik, istikrar ve güvenilirlik'
+        : element === 'Hava' ? 'İletişim, zeka ve sosyallik'
+        : element === 'Su' ? 'Duygusallık, sezgi ve empati'
+        : 'Dengeli bir kişilikle'
+      : element === 'Fire' ? 'Energy, passion, and action'
+        : element === 'Earth' ? 'Practicality, stability, and reliability'
+        : element === 'Air' ? 'Communication, intellect, and social nature'
+        : element === 'Water' ? 'Emotions, intuition, and empathy'
+        : 'A balanced personality with';
+    
+    return description;
   }
 
-  private static getAspectInterpretation(aspect: any): string {
-    const interpretations: Record<string, string> = {
-      'Conjunction': 'Blending of energies - powerful but unified force',
-      'Sextile': 'Harmonious flow - natural talent and ease',
-      'Square': 'Challenge - drives growth through friction',
-      'Trine': 'Fortunate flow - gifts and natural abilities',
-      'Opposition': 'Polarity - integration of opposites creates wholeness',
+  private static getAspectInterpretation(aspect: any, language: string = 'en'): string {
+    const interpretations: Record<string, Record<string, string>> = {
+      'Conjunction': {
+        'en': 'Blending of energies - unified and powerful force',
+        'tr': 'Enerji birleşmesi - güçlü ve birleşik etki'
+      },
+      'Sextile': {
+        'en': 'Harmonious flow - natural talent and ease',
+        'tr': 'Harmonik akış - doğal yetenek ve kolaylık'
+      },
+      'Square': {
+        'en': 'Challenge and friction - drives growth and maturity',
+        'tr': 'Zorluk ve çatışma - büyüme ve olgunluğu yönlendirir'
+      },
+      'Trine': {
+        'en': 'Fortunate flow - gifts and natural abilities',
+        'tr': 'Şanslı akış - armağanlar ve doğal yetenekler'
+      },
+      'Opposition': {
+        'en': 'Polarity - integration of opposites brings wholeness',
+        'tr': 'Kutupluluk - zıtlıkların birleşmesi bütünlüğü getirir'
+      },
     };
-    return interpretations[aspect.type] || 'significant interaction';
+    
+    const lang = language === 'tr' ? 'tr' : 'en';
+    return interpretations[aspect.type]?.[lang] || 'significant planetary interaction';
   }
 }
 
