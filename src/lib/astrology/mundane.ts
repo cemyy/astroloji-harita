@@ -117,16 +117,16 @@ export class MundaneAstrology {
   /**
    * Analyze current year for global events and trends
    */
-  static analyzeYearAhead(year: number): {
+  static analyzeYearAhead(_year: number): {
     seasonalTrends: Array<{ season: string; mainInfluence: string; expectedOutcome: string }>;
     majorAspects: Array<{ aspect: string; date: string; significance: string }>;
     recommendations: string[];
   } {
-    // Sun's ingress dates
-    const vernal = new Date(year, 2, 20); // ~March 20-21
-    const summer = new Date(year, 5, 20); // ~June 20-21
-    const autumnal = new Date(year, 8, 22); // ~September 22-23
-    const winter = new Date(year, 11, 21); // ~December 21-22
+    // Sun's ingress dates (for seasonal analysis framework)
+    // const vernal = new Date(year, 2, 20); // ~March 20-21
+    // const summer = new Date(year, 5, 20); // ~June 20-21
+    // const autumnal = new Date(year, 8, 22); // ~September 22-23
+    // const winter = new Date(year, 11, 21); // ~December 21-22
     
     return {
       seasonalTrends: [
@@ -175,7 +175,7 @@ export class MundaneAstrology {
   /**
    * Predict elections, political changes based on country charts
    */
-  static predictPoliticalChanges(countryChart: NatalChart, forecastDate: Date): {
+  static predictPoliticalChanges(_countryChart: NatalChart, _forecastDate: Date): {
     prediction: string;
     confidence: number;
     factors: string[];
@@ -200,7 +200,7 @@ export class MundaneAstrology {
   /**
    * Analyze economic cycles and market trends
    */
-  static analyzeEconomicCycles(year: number): {
+  static analyzeEconomicCycles(_year: number): {
     bullishPeriods: Array<{ startMonth: number; endMonth: number; confidence: number }>;
     bearishPeriods: Array<{ startMonth: number; endMonth: number; confidence: number }>;
     volatilityPeriods: Array<{ month: number; reason: string }>;
