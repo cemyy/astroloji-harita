@@ -1,7 +1,7 @@
 'use client';
 
 import { NatalChart, Planet, Zodiac } from '@/lib/astrology/types';
-import { useEffect, useRef } from 'react';
+import { useRef } from 'react';
 
 interface NatalChartWheelProps {
   chart: NatalChart;
@@ -76,7 +76,7 @@ export default function NatalChartWheel({ chart, size = 600 }: NatalChartWheelPr
     return (
       <>
         {/* Zodiac background sections */}
-        {zodiacSigns.map((sign, idx) => {
+        {zodiacSigns.map((_, idx) => {
           const startDegree = idx * 30;
           const endDegree = (idx + 1) * 30;
 

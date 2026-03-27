@@ -38,7 +38,7 @@ export class AstrocartographyCalculator {
    * This line circles the Earth where the planet is in that angle position
    */
   private static calculateLineCoordinates(
-    chart: NatalChart,
+    _chart: NatalChart,
     planet: any,
     angle: 'IC' | 'ASC' | 'MC' | 'DESC'
   ): Array<{ latitude: number; longitude: number }> {
@@ -181,8 +181,8 @@ export class AstrocartographyCalculator {
         DESC: 'Intense transformative relationships - psychological depth',
       },
       [Planet.NorthNode]: {
-        MC: 'Soul's purpose in career - destiny fulfillment',
-        ASC: 'Soul's evolutionary direction - life purpose',
+        MC: 'Soul\'s purpose in career - destiny fulfillment',
+        ASC: 'Soul\'s evolutionary direction - life purpose',
         IC: 'Ancestral karma and family destiny',
         DESC: 'Soul connections with others - karmic partnerships',
       },
@@ -208,7 +208,7 @@ export class AstrocartographyCalculator {
    */
   static getLocationRecommendations(
     chart: NatalChart,
-    currentLocation: { latitude: number; longitude: number },
+    _currentLocation: { latitude: number; longitude: number },
     timeframe: 'short' | 'medium' | 'long'
   ): Array<{
     location: string;

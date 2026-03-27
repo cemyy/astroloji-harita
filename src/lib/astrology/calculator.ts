@@ -109,7 +109,7 @@ export class AstrologyCalculator {
     const D = 297.8501921 + 445267.1114034 * T - 0.0018819 * T * T + T * T * T / 545868 - T * T * T * T / 113065000;
     
     const M = 357.52910 + 35999.05030 * T - 0.0001536 * T * T;
-    const F = 93.2720950 + 483202.0175233 * T - 0.0036539 * T * T - T * T * T / 3526000 + T * T * T * T / 863310000;
+    // const F = 93.2720950 + 483202.0175233 * T - 0.0036539 * T * T - T * T * T / 3526000 + T * T * T * T / 863310000;
     
     // Simplified calculation of moon longitude
     let moonLng = D + 6.28875 * Math.sin((M * Math.PI) / 180);
@@ -155,15 +155,25 @@ export class AstrologyCalculator {
     
     // Ascendant (1st house cusp)
     const ascendant: PlanetPosition = {
-      planet: Planet.Sun, // Placeholder
-      ...houses[0],
-    } as PlanetPosition;
+      planet: Planet.Sun, // Placeholder for ascendant
+      longitude: houses[0].longitude,
+      latitude: 0,
+      zodiacSign: houses[0].zodiacSign,
+      degree: houses[0].degree,
+      minute: houses[0].minute,
+      retrograde: false,
+    };
 
     // Midheaven (10th house cusp)
     const midheaven: PlanetPosition = {
-      planet: Planet.Sun, // Placeholder
-      ...houses[9],
-    } as PlanetPosition;
+      planet: Planet.Sun, // Placeholder for midheaven
+      longitude: houses[9]?.longitude || 0,
+      latitude: 0,
+      zodiacSign: houses[9]?.zodiacSign || Zodiac.Aries,
+      degree: houses[9]?.degree || 0,
+      minute: houses[9]?.minute || 0,
+      retrograde: false,
+    };
 
     // Calculate aspects
     const aspects = this.calculateAspects(planets);
@@ -188,7 +198,7 @@ export class AstrologyCalculator {
   }
 
   // Calculate houses (simplified Placidus)
-  static calculateHouses(jd: number, birthData: BirthData): House[] {
+  static calculateHouses(_jd: number, birthData: BirthData): House[] {
     const houses: House[] = [];
     
     // Placeholder - calculate actual house cusps

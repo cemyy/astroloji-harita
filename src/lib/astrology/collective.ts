@@ -1,6 +1,6 @@
 // Collective Astrology Module - Synastry, Composite Charts, and Group Analysis
 
-import { BirthData, NatalChart, CollectiveData, SynastryAnalysis, CompatibilityScore } from './types';
+import { BirthData, NatalChart, CollectiveData, SynastryAnalysis, CompatibilityScore, Planet } from './types';
 import { AstrologyCalculator } from './calculator';
 
 export class CollectiveAstrology {
@@ -15,12 +15,6 @@ export class CollectiveAstrology {
     person2Name: string,
     chart2: NatalChart
   ): SynastryAnalysis {
-    // Calculate how person1's planets fall in person2's houses
-    const person1PlanetsInPerson2Houses = this.getPlanetsInHouses(chart1, chart2);
-    
-    // Calculate how person2's planets fall in person1's houses
-    const person2PlanetsInPerson1Houses = this.getPlanetsInHouses(chart2, chart1);
-    
     // Calculate cross-chart aspects
     const crossAspects = this.calculateCrossChartAspects(chart1, chart2);
     
@@ -99,18 +93,7 @@ export class CollectiveAstrology {
     birth1: BirthData,
     birth2: BirthData
   ): NatalChart {
-    // Calculate mean of two birth moments
-    const jd1 = AstrologyCalculator.calculateJulianDay(
-      birth1.year, birth1.month, birth1.day,
-      birth1.hour || 0, birth1.minute || 0
-    );
-    
-    const jd2 = AstrologyCalculator.calculateJulianDay(
-      birth2.year, birth2.month, birth2.day,
-      birth2.hour || 0, birth2.minute || 0
-    );
-    
-    const meanJd = (jd1 + jd2) / 2;
+    // Calculate mean of two birth locations
     const meanLat = (birth1.latitude + birth2.latitude) / 2;
     const meanLng = (birth1.longitude + birth2.longitude) / 2;
     
@@ -199,13 +182,7 @@ export class CollectiveAstrology {
     return timeline;
   }
 
-  private static getPlanetsInHouses(natalChart: NatalChart, subjectChart: NatalChart): any {
-    // Determine which natal planets fall in subject's houses
-    // This shows areas of influence and involvement
-    return {}; // Placeholder
-  }
-
-  private static calculateCrossChartAspects(chart1: NatalChart, chart2: NatalChart): any[] {
+  private static calculateCrossChartAspects(_chart1: NatalChart, _chart2: NatalChart): any[] {
     // Calculate aspects between chart1 planets and chart2 planets
     return [];
   }
@@ -223,7 +200,7 @@ export class CollectiveAstrology {
     const intellectualScore = this.scoreMercuryCompatibility(chart1, chart2);
     
     // Venus-Mars compatibility (romantic/physical)
-    const physicalScore = this.scoreVenusMarscompatibility(chart1, chart2);
+    const physicalScore = this.scoreVenusMarsCompatibility(chart1, chart2);
     
     // Nodes (karmic)
     const karmicScore = this.scoreKarmicConnection(chart1, chart2);
@@ -251,8 +228,8 @@ export class CollectiveAstrology {
 
   private static scoreMoonCompatibility(chart1: NatalChart, chart2: NatalChart): number {
     // Moon sign compatibility for emotional resonance
-    const moon1 = chart1.planets.find(p => p.planet.name === 'Moon');
-    const moon2 = chart2.planets.find(p => p.planet.name === 'Moon');
+    const moon1 = chart1.planets.find(p => p.planet === Planet.Moon);
+    const moon2 = chart2.planets.find(p => p.planet === Planet.Moon);
     
     if (!moon1 || !moon2) return 50;
     
@@ -263,17 +240,17 @@ export class CollectiveAstrology {
     return Math.max(0, 100 - (normalized * 0.5));
   }
 
-  private static scoreMercuryCompatibility(chart1: NatalChart, chart2: NatalChart): number {
+  private static scoreMercuryCompatibility(_chart1: NatalChart, _chart2: NatalChart): number {
     // Mercury compatibility for communication
     return 70 + Math.random() * 20;
   }
 
-  private static scoreVenusMarsCompatibility(chart1: NatalChart, chart2: NatalChart): number {
+  private static scoreVenusMarsCompatibility(_chart1: NatalChart, _chart2: NatalChart): number {
     // Venus-Mars aspects = sexual and romantic chemistry
     return 65 + Math.random() * 25;
   }
 
-  private static scoreKarmicConnection(chart1: NatalChart, chart2: NatalChart): number {
+  private static scoreKarmicConnection(_chart1: NatalChart, _chart2: NatalChart): number {
     // North Node connections = karmic fated relationships
     return 60 + Math.random() * 30;
   }
@@ -324,7 +301,7 @@ export class CollectiveAstrology {
     return Math.round(Math.min(100, harmony));
   }
 
-  private static getYearTheme(year: number, chart1: NatalChart, chart2: NatalChart): string {
+  private static getYearTheme(year: number, _chart1: NatalChart, _chart2: NatalChart): string {
     const themes = [
       'Foundation & Getting to Know Each Other',
       'Growth & Deepening Connection',
@@ -337,7 +314,7 @@ export class CollectiveAstrology {
     return themes[year % themes.length];
   }
 
-  private static getMajorAspects(date: Date, chart1: NatalChart, chart2: NatalChart): string[] {
+  private static getMajorAspects(_date: Date, _chart1: NatalChart, _chart2: NatalChart): string[] {
     return [
       'Venus-Mars trine forming intimate bond',
       'Saturn aspects testing commitment',

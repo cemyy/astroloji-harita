@@ -77,17 +77,18 @@ export class MundaneAstrology {
   /**
    * Analyze global cycles - Jupiter (12 yr), Saturn (29 yr), Uranus (84 yr), Neptune (165 yr)
    */
-  static analyzeGlobalCycles(currentDate: Date): {
+  static analyzeGlobalCycles(_currentDate: Date): {
     jupiter: { signPosition: string; cycle: string; influence: string };
     saturn: { signPosition: string; cycle: string; influence: string };
     uranus: { signPosition: string; cycle: string; influence: string };
     neptune: { signPosition: string; cycle: string; influence: string };
   } {
-    const jd = AstrologyCalculator.calculateJulianDay(
-      currentDate.getFullYear(),
-      currentDate.getMonth() + 1,
-      currentDate.getDate()
-    );
+    // Use date for analysis (jd calculation commented out as not currently needed)
+    // const jd = AstrologyCalculator.calculateJulianDay(
+    //   currentDate.getFullYear(),
+    //   currentDate.getMonth() + 1,
+    //   currentDate.getDate()
+    // );
     
     return {
       jupiter: {

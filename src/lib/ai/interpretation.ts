@@ -1,6 +1,6 @@
 // AI-Powered Interpretation Module - Generate comprehensive astrological readings
 
-import { NatalChart, BirthData, SynastryAnalysis, MundaneChart } from './astrology/types';
+import { NatalChart, SynastryAnalysis, MundaneChart, ElementalBalance } from '@/lib/astrology/types';
 
 export class AIInterpretation {
   
@@ -82,7 +82,7 @@ ${language === 'tr'
 ${this.getElementalInterpretation(chart.elements, language)}
 
 ## ${language === 'tr' ? 'Ana Açılar' : 'Major Aspects'}
-${majorAspects.map((a, i) => `- **${a.planet1} ${a.type} ${a.planet2}**: ${this.getAspectInterpretation(a, language)}`).join('\n')}
+${majorAspects.map((a) => `- **${a.planet1} ${a.type} ${a.planet2}**: ${this.getAspectInterpretation(a, language)}`).join('\n')}
 
 ## ${language === 'tr' ? 'Yaşam Yolu' : 'Life Path'}
 ${language === 'tr'
@@ -282,7 +282,7 @@ ${language === 'tr' ? '*Dünya astrolojisi analizi.*' : '*Mundane astrology anal
     return traits[sign] || 'emotional depth and authentic connection';
   }
 
-  private static getElementalInterpretation(elements: Record<string, number>, language: string = 'en'): string {
+  private static getElementalInterpretation(elements: ElementalBalance, language: string = 'en'): string {
     const fire = elements.fire || 0;
     const earth = elements.earth || 0;
     const air = elements.air || 0;
