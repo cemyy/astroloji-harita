@@ -1,0 +1,19 @@
+node_modules/
+.next/
+out/
+build/
+dist/
+.env.local
+.env.*.local
+.DS_Store
+*.pem
+.vercel
+.idea/
+.vscode/local history
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+.cache/
+.turbo/

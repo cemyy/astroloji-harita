@@ -1,0 +1,308 @@
+/* Natal Chart Styling */
+
+.chart-wheel {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.chart-wheel svg {
+  filter: drop-shadow(0 0 10px rgba(79, 70, 229, 0.3));
+  transition: filter 0.3s ease;
+}
+
+.chart-wheel:hover svg {
+  filter: drop-shadow(0 0 20px rgba(79, 70, 229, 0.6));
+}
+
+/* Zodiac signs styling */
+.zodiac-sign {
+  font-weight: 600;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.zodiac-aries {
+  color: #ff6b6b;
+}
+.zodiac-taurus {
+  color: #a29bfe;
+}
+.zodiac-gemini {
+  color: #74b9ff;
+}
+.zodiac-cancer {
+  color: #81ecec;
+}
+.zodiac-leo {
+  color: #ffeaa7;
+}
+.zodiac-virgo {
+  color: #55efc4;
+}
+.zodiac-libra {
+  color: #fab1a0;
+}
+.zodiac-scorpio {
+  color: #fd79a8;
+}
+.zodiac-sagittarius {
+  color: #6c5ce7;
+}
+.zodiac-capricorn {
+  color: #00b894;
+}
+.zodiac-aquarius {
+  color: #fdcb6e;
+}
+.zodiac-pisces {
+  color: #e17055;
+}
+
+/* Planet symbols */
+.planet-symbol {
+  font-size: 24px;
+  text-align: center;
+}
+
+/* Aspect lines */
+.aspect-line {
+  stroke-width: 2;
+  opacity: 0.6;
+}
+
+.aspect-conjunction {
+  stroke: #ff6b6b;
+}
+.aspect-sextile {
+  stroke: #00b894;
+}
+.aspect-square {
+  stroke: #ff7675;
+}
+.aspect-trine {
+  stroke: #00b894;
+}
+.aspect-opposition {
+  stroke: #d63031;
+}
+.aspect-quincunx {
+  stroke: #fdcb6e;
+}
+
+/* House positions */
+.house-line {
+  stroke: #4f46e5;
+  stroke-width: 1;
+  opacity: 0.5;
+}
+
+.house-label {
+  font-size: 11px;
+  font-weight: 600;
+  fill: #94a3b8;
+}
+
+/* Interactive elements */
+.planet-point {
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.planet-point:hover {
+  r: 8;
+  filter: drop-shadow(0 0 5px rgba(79, 70, 229, 0.8));
+}
+
+.planet-point circle {
+  stroke: #4f46e5;
+  stroke-width: 2;
+}
+
+/* Chart information panel */
+.chart-info-panel {
+  background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+  border: 1px solid #334155;
+  border-radius: 8px;
+  padding: 20px;
+  margin-top: 20px;
+}
+
+.chart-info-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 0;
+  border-bottom: 1px solid #334155;
+}
+
+.chart-info-row:last-child {
+  border-bottom: none;
+}
+
+.chart-info-label {
+  font-weight: 600;
+  color: #cbd5e1;
+  font-size: 14px;
+}
+
+.chart-info-value {
+  color: #e2e8f0;
+  font-weight: 500;
+}
+
+/* Element balance visualization */
+.element-bar {
+  height: 24px;
+  border-radius: 4px;
+  display: flex;
+  overflow: hidden;
+  background: #334155;
+  margin-bottom: 8px;
+}
+
+.element-fire {
+  background: linear-gradient(to right, #ff6b6b, #ffa500);
+}
+
+.element-earth {
+  background: linear-gradient(to right, #a29bfe, #6c5ce7);
+}
+
+.element-air {
+  background: linear-gradient(to right, #74b9ff, #0984e3);
+}
+
+.element-water {
+  background: linear-gradient(to right, #81ecec, #00b894);
+}
+
+.element-segment {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-weight: 600;
+  font-size: 12px;
+  transition: flex-basis 0.3s ease;
+}
+
+/* Aspects table */
+.aspects-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.aspects-table th {
+  background: #334155;
+  padding: 12px;
+  text-align: left;
+  font-weight: 600;
+  color: #cbd5e1;
+  border-bottom: 2px solid #4f46e5;
+}
+
+.aspects-table td {
+  padding: 12px;
+  border-bottom: 1px solid #334155;
+  color: #e2e8f0;
+}
+
+.aspects-table tr:hover {
+  background: rgba(79, 70, 229, 0.1);
+}
+
+.aspect-type-strong {
+  color: #00b894;
+  font-weight: 600;
+}
+
+.aspect-type-challenging {
+  color: #ff7675;
+  font-weight: 600;
+}
+
+/* Responsive charts */
+@media (max-width: 768px) {
+  .chart-wheel {
+    max-width: 100%;
+    aspect-ratio: auto;
+    min-height: 400px;
+  }
+
+  .zodiac-sign {
+    font-size: 10px;
+  }
+
+  .planet-symbol {
+    font-size: 18px;
+  }
+
+  .house-label {
+    font-size: 9px;
+  }
+}
+
+/* Animation for loading */
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.loading-spinner {
+  animation: spin 1s linear infinite;
+}
+
+/* Tooltip styling */
+.tooltip {
+  position: relative;
+  display: inline-block;
+  cursor: help;
+}
+
+.tooltip .tooltiptext {
+  visibility: hidden;
+  width: 200px;
+  background-color: #1e293b;
+  color: #e2e8f0;
+  text-align: center;
+  border-radius: 6px;
+  padding: 10px;
+  position: absolute;
+  z-index: 1000;
+  bottom: 125%;
+  left: 50%;
+  margin-left: -100px;
+  opacity: 0;
+  transition: opacity 0.3s;
+  border: 1px solid #334155;
+  font-size: 12px;
+}
+
+.tooltip:hover .tooltiptext {
+  visibility: visible;
+  opacity: 1;
+}
+
+/* Print styles for charts */
+@media print {
+  .chart-wheel svg {
+    filter: none;
+  }
+
+  .no-print {
+    display: none !important;
+  }
+
+  .chart-info-panel {
+    page-break-inside: avoid;
+    border: 1px solid #000;
+  }
+}
