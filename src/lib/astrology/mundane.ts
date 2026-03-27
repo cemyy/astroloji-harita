@@ -223,7 +223,7 @@ export class MundaneAstrology {
   /**
    * Analyze natural disasters and weather patterns
    */
-  static analyzeNaturalEvents(year: number): {
+  static analyzeNaturalEvents(_year: number): {
     riskPeriods: Array<{ period: string; riskLevel: 'high' | 'medium' | 'low'; eventType: string }>;
     seasonalPatterns: Array<{ season: string; expectedPattern: string }>;
   } {
@@ -265,7 +265,7 @@ export class MundaneAstrology {
     `;
   }
 
-  private static interpretEventChart(eventName: string, eventDate: Date, aspects: any[]): string {
+  private static interpretEventChart(eventName: string, eventDate: Date, _aspects: any[]): string {
     return `
       ${eventName} - Event Chart Analysis:
       
