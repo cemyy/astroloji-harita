@@ -3,18 +3,15 @@
   "devCommand": "npm run dev",
   "installCommand": "npm install",
   "framework": "nextjs",
-  "env": [
-    {
-      "key": "NEXT_PUBLIC_SUPABASE_URL",
-      "description": "Optional: Supabase project URL (for database features)"
+  "env": {
+    "NEXT_PUBLIC_SUPABASE_URL": {
+      "description": "Optional: Supabase project URL"
     },
-    {
-      "key": "NEXT_PUBLIC_SUPABASE_ANON_KEY",
+    "NEXT_PUBLIC_SUPABASE_ANON_KEY": {
       "description": "Optional: Supabase anonymous key"
     },
-    {
-      "key": "SUPABASE_SERVICE_ROLE_KEY",
-      "description": "Optional: Supabase service role key (server-side only)"
+    "SUPABASE_SERVICE_ROLE_KEY": {
+      "description": "Optional: Supabase service role key"
     }
-  ]
+  }
 }
